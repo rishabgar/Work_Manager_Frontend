@@ -53,7 +53,7 @@ function SigninForm() {
 
       if (res.success) {
         localStorage.setItem("authData", res?.token);
-        navigate("/notes");
+        navigate("/");
         // window.location.href = "/notes";
       } else {
         setAlert(true);
