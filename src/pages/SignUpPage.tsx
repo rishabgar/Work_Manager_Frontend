@@ -44,7 +44,7 @@ function SignupFormDemo() {
 
     setLoader(true);
     const res: any = await usePostApi(
-      "http://localhost:3000/notes/user-registration",
+      "https://work-manager-backend.vercel.app/notes/user-registration",
       formData,
       setResponse
     );

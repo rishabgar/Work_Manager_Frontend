@@ -44,7 +44,7 @@ function SigninForm() {
 
     if (formData.password === formData.confirmPassword) {
       const res: any = await usePostApi(
-        "http://localhost:3000/notes/user-login",
+        "https://work-manager-backend.vercel.app/notes/user-login",
         formData,
         setResponse
       );
@@ -71,7 +71,8 @@ function SigninForm() {
   };
 
   function redirectToGoogle() {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href =
+      "https://work-manager-backend.vercel.app/auth/google";
   }
 
   useEffect(() => {
