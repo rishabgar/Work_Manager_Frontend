@@ -43,15 +43,18 @@ function SigninForm() {
     e.preventDefault();
 
     if (formData.password === formData.confirmPassword) {
+      setLoader(true);
       const res: any = await usePostApi(
         "https://work-manager-backend.vercel.app/notes/user-login",
         formData,
         setResponse
       );
+      setLoader(false);
 
       if (res.success) {
         localStorage.setItem("authData", res?.token);
-        window.location.href = "/notes";
+        navigate("/notes");
+        // window.location.href = "/notes";
       } else {
         setAlert(true);
       }
