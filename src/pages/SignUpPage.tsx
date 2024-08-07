@@ -39,11 +39,11 @@ function SignupFormDemo() {
   });
 
   // Form Submit Function
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     setLoader(true);
-    const res = await usePostApi(
+    const res: any = await usePostApi(
       "http://localhost:3000/notes/user-registration",
       formData,
       setResponse

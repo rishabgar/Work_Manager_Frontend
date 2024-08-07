@@ -43,7 +43,7 @@ function SigninForm() {
     e.preventDefault();
 
     if (formData.password === formData.confirmPassword) {
-      const res = await usePostApi(
+      const res: any = await usePostApi(
         "http://localhost:3000/notes/user-login",
         formData,
         setResponse

@@ -2,9 +2,10 @@ import { NavBar, SideNavBar } from "./components";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Note, SignIn } from "./pages/index.ts";
+import { RootState } from "./redux/store.ts";
 
 export function ProtectedRoutes() {
-  const auth = useSelector((state) => state?.authValidator.auth);
+  const auth = useSelector((state: RootState) => state?.authValidator.auth);
 
   return (
     <>
@@ -25,7 +26,7 @@ export function ProtectedRoutes() {
 }
 
 export function UnprotectedRoutes() {
-  const auth = useSelector((state) => state?.authValidator.auth);
+  const auth = useSelector((state: RootState) => state?.authValidator.auth);
 
   return (
     <>
