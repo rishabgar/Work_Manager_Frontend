@@ -54,6 +54,7 @@ function SignupFormDemo() {
       localStorage.setItem("authData", res?.token);
       navigate("/");
     }
+    setLoader(false);
     setAlert(true);
   };
 
