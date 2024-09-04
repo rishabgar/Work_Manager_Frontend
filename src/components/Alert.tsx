@@ -4,7 +4,7 @@ import AlertTitle from "@mui/material/AlertTitle";
 
 export default function ActionAlerts({ alertClose, action, message }: any) {
   return (
-    <Stack className="fixed top-0 w-full h-16">
+    <Stack className="fixed top-0 left-0 w-full h-16">
       <Alert severity={action ? "success" : "error"} onClose={alertClose}>
         <AlertTitle>{action ? "success" : "error"}</AlertTitle>
         {message}

@@ -4,7 +4,7 @@ import { ProtectedRoutes, UnprotectedRoutes } from "./App.tsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./error-page";
-import { Note, Trash, SignUp, SignIn } from "./pages/index.ts";
+import { Note, Trash, SignUp, SignIn, Colloborative } from "./pages/index.ts";
 import store from "./redux/store.ts";
 import { Provider } from "react-redux";
 
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "trash",
         element: <Trash />,
+      },
+      {
+        path: "colloborative",
+        element: <Colloborative />,
       },
     ],
   },

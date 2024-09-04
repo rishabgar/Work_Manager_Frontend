@@ -1,16 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Note {
-  id: string;
-  title: string;
-  description: string;
-}
-
-interface NotesState {
-  trashedNotes: Note[];
-}
-
-const initialState: NotesState = {
+const initialState: any = {
   trashedNotes: [],
 };
 
@@ -20,13 +10,15 @@ const trashSlice = createSlice({
   reducers: {
     addTrashNote: (
       state,
-      action: PayloadAction<{ id: string; title: string; description: string }>
+      action: PayloadAction<{ notes: any; type: string }>
     ) => {
-      state.trashedNotes.push({ ...action.payload });
+      if (state.trashedNotes.length === 0) {
+        state.trashedNotes.push(...action.payload?.notes);
+      }
     },
     deleteTrashNote: (state, action: PayloadAction<string>) => {
       state.trashedNotes = state.trashedNotes.filter(
-        (note) => note.id !== action.payload
+        (note: any) => note.note_id !== action.payload
       );
     },
   },

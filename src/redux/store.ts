@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import noteReducer from "./noteSlice";
 import trashReducer from "./trashSlice";
 import authReducer from "./authSlice";
+import colloborativeReducer from "./colloborativeSlice";
 
 const store = configureStore({
   reducer: {
     notes: noteReducer,
     trashedNotes: trashReducer,
     authValidator: authReducer,
+    colloborativeNotes: colloborativeReducer,
   },
 });
 
