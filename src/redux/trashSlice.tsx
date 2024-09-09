@@ -12,8 +12,10 @@ const trashSlice = createSlice({
       state,
       action: PayloadAction<{ notes: any; type: string }>
     ) => {
-      if (state.trashedNotes.length === 0) {
+      if (state.trashedNotes.length === 0 && action.payload.type === "array") {
         state.trashedNotes.push(...action.payload?.notes);
+      } else if (action.payload.type === "object") {
+        state.trashedNotes.push({ ...action.payload?.notes });
       }
     },
     deleteTrashNote: (state, action: PayloadAction<string>) => {

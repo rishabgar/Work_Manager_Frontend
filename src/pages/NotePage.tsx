@@ -253,7 +253,7 @@ function NotePage() {
                 title: pTitle,
                 description: pDescription,
               },
-              type: "array",
+              type: "object",
             })
           );
         }

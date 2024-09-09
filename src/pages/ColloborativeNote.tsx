@@ -46,6 +46,7 @@ function colloborativeNotePage() {
 
   const handleModalClose = () => {
     usePostApi(
+      // "https://work-manager-backend.vercel.app/notes/update-colloborative-note",
       "https://work-manager-backend.vercel.app/notes/update-colloborative-note",
       { note_id: noteId, ...note },
       setResponse
@@ -61,12 +62,13 @@ function colloborativeNotePage() {
   };
 
   useEffect(() => {
-    console.log("response", response);
+    // console.log("response", response);
 
     const authKey = useLocalStorage("authData");
     dispatch(addAuth({ authKey: authKey }));
     useGetApi(
       "https://work-manager-backend.vercel.app/notes/get-user-colloborative-note",
+      // "http://localhost:3000/notes/get-user-colloborative-note",
       setResponse,
       authKey
     )
@@ -82,7 +84,8 @@ function colloborativeNotePage() {
   }, []);
 
   useEffect(() => {
-    const newSocket = io("https://work-manager-backend.vercel.app");
+    const newSocket = io("https://work-manager-backend.vercel.app/");
+    // const newSocket = io("http://localhost:3000");
     setSocket(newSocket);
 
     newSocket.on("sharedNoteEmit", (data: any) => {
