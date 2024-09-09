@@ -251,7 +251,8 @@ function SigninForm() {
 
       if (res.success) {
         localStorage.setItem("authData", res?.token);
-        window.location.href = "https://work-manager-backend.vercel.app/notes";
+        // window.location.href = "https://work-manager-backend.vercel.app/notes";
+        window.location.href = "notes";
       } else {
         setAlert(true);
       }
