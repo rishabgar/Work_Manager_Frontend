@@ -62,7 +62,7 @@ function colloborativeNotePage() {
   };
 
   useEffect(() => {
-    // console.log("response", response);
+    console.log("response", response);
 
     const authKey = useLocalStorage("authData");
     dispatch(addAuth({ authKey: authKey }));
