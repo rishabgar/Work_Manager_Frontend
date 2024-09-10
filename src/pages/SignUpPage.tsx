@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { IconLogin } from "@tabler/icons-react";
 import useLocalStorage from "../customHooks/getLocalStorageData";
 import usePostApi from "../customHooks/callApi";
+const URL = import.meta.env.VITE_URL;
 
 interface ResponseState {
   message: string;
@@ -44,7 +45,7 @@ function SignupFormDemo() {
 
     setLoader(true);
     const res: any = await usePostApi(
-      "https://work-manager-backend.vercel.app/notes/user-registration",
+      `${URL}/notes/user-registration`,
       formData,
       setResponse
     );

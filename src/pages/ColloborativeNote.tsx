@@ -6,6 +6,7 @@ import { cAddNote, cUpdateNote } from "../redux/colloborativeSlice";
 import { addAuth } from "../redux/authSlice";
 import useLocalStorage from "../customHooks/getLocalStorageData";
 import usePostApi, { useGetApi } from "../customHooks/callApi";
+const URL = import.meta.env.VITE_URL;
 
 interface ResponseState {
   message: string;
@@ -46,8 +47,7 @@ function colloborativeNotePage() {
 
   const handleModalClose = () => {
     usePostApi(
-      // "https://work-manager-backend.vercel.app/notes/update-colloborative-note",
-      "https://work-manager-backend.vercel.app/notes/update-colloborative-note",
+      `${URL}/notes/update-colloborative-note`,
       { note_id: noteId, ...note },
       setResponse
       // authKey
@@ -66,12 +66,7 @@ function colloborativeNotePage() {
 
     const authKey = useLocalStorage("authData");
     dispatch(addAuth({ authKey: authKey }));
-    useGetApi(
-      "https://work-manager-backend.vercel.app/notes/get-user-colloborative-note",
-      // "http://localhost:3000/notes/get-user-colloborative-note",
-      setResponse,
-      authKey
-    )
+    useGetApi(`${URL}/notes/get-user-colloborative-note`, setResponse, authKey)
       .then((data: any) => {
         // console.log(data);
 
@@ -84,8 +79,7 @@ function colloborativeNotePage() {
   }, []);
 
   useEffect(() => {
-    const newSocket = io("https://work-manager-backend.vercel.app/");
-    // const newSocket = io("http://localhost:3000");
+    const newSocket = io(`${URL}`);
     setSocket(newSocket);
 
     newSocket.on("sharedNoteEmit", (data: any) => {
