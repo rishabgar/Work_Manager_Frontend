@@ -19,19 +19,19 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Note />,
       },
       {
-        path: "notes",
+        path: "/notes",
         element: <Note />,
       },
       {
-        path: "trash",
+        path: "/trash",
         element: <Trash />,
       },
       {
-        path: "colloborative",
+        path: "/colloborative",
         element: <Colloborative />,
       },
     ],
