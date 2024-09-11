@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import ReactDOM from "react-dom/client";
 import { ProtectedRoutes, UnprotectedRoutes } from "./App.tsx";
 import "./index.css";
@@ -23,15 +23,15 @@ const router = createBrowserRouter([
         element: <Note />,
       },
       {
-        path: "/notes",
+        path: "notes",
         element: <Note />,
       },
       {
-        path: "/trash",
+        path: "trash",
         element: <Trash />,
       },
       {
-        path: "/colloborative",
+        path: "colloborative",
         element: <Colloborative />,
       },
     ],
@@ -58,7 +58,5 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );
