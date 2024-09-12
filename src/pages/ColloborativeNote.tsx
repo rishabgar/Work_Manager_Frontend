@@ -18,6 +18,7 @@ interface ResponseState {
 }
 
 function colloborativeNotePage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState<any>(null);
   const dispatch = useDispatch();
   const notes = useSelector((state: any) => state?.colloborativeNotes?.notes);
@@ -62,14 +63,13 @@ function colloborativeNotePage() {
   };
 
   useEffect(() => {
-    console.log("response", response);
-
     const authKey = useLocalStorage("authData");
     dispatch(addAuth({ authKey: authKey }));
     useGetApi(`${URL}/notes/get-user-colloborative-note`, setResponse, authKey)
       .then((data: any) => {
         // console.log(data);
-
+        setIsLoading(false);
+        console.log("response", response);
         data.success &&
           dispatch(cAddNote({ type: "array", notes: data?.data }));
       })
@@ -101,7 +101,9 @@ function colloborativeNotePage() {
     <div className="overflow-auto">
       <div className="w-full flex justify-center items-start"></div>
       <div className="my-7 mx-10 flex flex-wrap ">
-        {notes &&
+        {isLoading ? (
+          <div className="h-32 w-64 bg-gray-100 animate-pulse"></div>
+        ) : (
           notes?.map((note: any) => {
             return (
               <div className="group" key={note.note_id}>
@@ -117,7 +119,8 @@ function colloborativeNotePage() {
                 </div>
               </div>
             );
-          })}
+          })
+        )}
       </div>
       <ShowTaskModal
         open={open}

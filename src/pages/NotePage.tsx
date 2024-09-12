@@ -7,7 +7,6 @@ import { addNote, updateNote, deleteNote } from "../redux/noteSlice";
 import { addTrashNote } from "../redux/trashSlice";
 import { MdDeleteForever } from "react-icons/md";
 import { FcCollaboration } from "react-icons/fc";
-import { addAuth } from "../redux/authSlice";
 import useLocalStorage from "../customHooks/getLocalStorageData";
 import { useGetApi } from "../customHooks/callApi";
 import usePostApi from "../customHooks/callApi";
@@ -16,6 +15,10 @@ import { v4 as uuidv4 } from "uuid";
 import FormDialog from "../modal/EmailModal";
 import emailjs from "@emailjs/browser";
 import { cAddNote } from "../redux/colloborativeSlice";
+import { truncateText } from "../helper";
+const serviceId = import.meta.env.VITE_SERVICE_ID;
+const templateId = import.meta.env.VITE_TEMPLATE_ID;
+const publicKey = import.meta.env.VITE_PUBLIC_API_KEY;
 const URL = import.meta.env.VITE_URL;
 
 interface Note {
@@ -42,7 +45,7 @@ interface ResponseState {
 
 function NotePage() {
   const notes = useSelector((state: RootState) => state?.notes.notes);
-  const authKey = useSelector((state: any) => state?.authValidator?.auth);
+  const [authKey, setAuthKey] = useState<any>("");
   const [collaborateEmail, setCollaborateEmail] = useState("");
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const location = useLocation();
@@ -68,7 +71,6 @@ function NotePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   function handleNoteSave() {
-    const authKey = useLocalStorage("authData");
     usePostApi(
       `${URL}/notes/add-note`,
       { note_id: uniqueId, trashed: 0, ...note },
@@ -153,10 +155,6 @@ function NotePage() {
         console.log(data);
       });
 
-    const serviceId = import.meta.env.VITE_SERVICE_ID;
-    const templateId = import.meta.env.VITE_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_PUBLIC_API_KEY;
-
     emailjs
       .send(serviceId, templateId, templateParams, {
         publicKey: publicKey,
@@ -183,16 +181,17 @@ function NotePage() {
   useEffect(() => {
     const query: any = queryParams.get("token");
     query !== null && localStorage.setItem("authData", query);
-    const authKey = useLocalStorage("authData");
-    dispatch(addAuth({ authKey: authKey }));
-    useGetApi(`${URL}/notes/get-user-notes`, setResponse, authKey)
-      .then((data: any) => {
-        setIsLoading(false);
-        dispatch(addNote({ type: "array", notes: data?.data }));
-      })
-      .catch((data: any) => {
-        console.log(data);
-      });
+    const auth = useLocalStorage("authData");
+    setAuthKey(auth);
+    auth &&
+      useGetApi(`${URL}/notes/get-user-notes`, setResponse, auth)
+        .then((data: any) => {
+          setIsLoading(false);
+          dispatch(addNote({ type: "array", notes: data?.data }));
+        })
+        .catch((data: any) => {
+          console.log(data);
+        });
   }, []);
 
   return (
@@ -223,8 +222,12 @@ function NotePage() {
                     setNoteId(note.note_id);
                   }}
                 >
-                  <p className="mb-2 font-bold">{note.title}</p>
-                  <p>{note.description}</p>
+                  <p className="mb-2 font-bold overflow-wrap break-words whitespace-normal h-10">
+                    {truncateText(note.title, 40)}
+                  </p>
+                  <p className="text-wrap overflow-wrap break-words whitespace-normal">
+                    {note.description}
+                  </p>
                 </div>
                 <div className=" hidden group-hover:block shadow-[2px_2px_2px_3px_rgba(0,0,0,0.2)] w-64 h-10">
                   <div className="flex items-center h-full justify-end cursor-pointer">

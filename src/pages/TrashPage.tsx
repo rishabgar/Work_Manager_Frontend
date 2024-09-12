@@ -16,6 +16,7 @@ interface ResponseState {
 }
 
 function TrashPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const notes = useSelector((state: any) => state.trashedNotes.trashedNotes);
   const [alert, setAlert] = useState(false);
@@ -59,6 +60,7 @@ function TrashPage() {
     dispatch(addAuth({ authKey: authKey }));
     useGetApi(`${URL}/notes/get-trashed-notes`, setResponse, authKey)
       .then((data: any) => {
+        setIsLoading(false);
         dispatch(addTrashNote({ type: "array", notes: data?.data }));
       })
       .catch((data: any) => {
@@ -70,48 +72,52 @@ function TrashPage() {
     <>
       <div className="overflow-auto">
         <div className="my-7 mx-10 flex flex-wrap ">
-          {notes.map((note: any) => {
-            return (
-              <div className="group" key={note.note_id}>
-                <div className="min-h-32 max-h-60 w-64 shadow-[2px_2px_2px_3px_rgba(0,0,0,0.2)] cursor-pointer overflow-hidden mr-4 p-2">
-                  <p className="mb-2 font-bold">{note.title}</p>
-                  <p>{note.description}</p>
-                </div>
-                <div className="hidden group-hover:block shadow-[2px_2px_2px_3px_rgba(0,0,0,0.2)] w-64 h-10">
-                  <div className="flex h-full w-full items-center justify-end">
-                    <div
-                      className="cursor-pointer px-1"
-                      onClick={() => {
-                        setAlert(true);
-                        setResponse({
-                          success: true,
-                          message:
-                            "Are You Sure You want to delete,Please Close For Confirmation",
-                        });
-                        setNote({
-                          id: note.note_id,
-                        });
-                      }}
-                    >
-                      <MdDeleteForever className="text-2xl" />
-                    </div>
-                    <div
-                      className="cursor-pointer px-1"
-                      onClick={() => {
-                        handleRecoveryNote({
-                          note_id: note.note_id,
-                          title: note.title,
-                          description: note.description,
-                        });
-                      }}
-                    >
-                      <RiDeviceRecoverLine className="text-2xl" />
+          {isLoading ? (
+            <div className="h-32 w-64 bg-gray-100 animate-pulse"></div>
+          ) : (
+            notes.map((note: any) => {
+              return (
+                <div className="group" key={note.note_id}>
+                  <div className="min-h-32 max-h-60 w-64 shadow-[2px_2px_2px_3px_rgba(0,0,0,0.2)] cursor-pointer overflow-hidden mr-4 p-2">
+                    <p className="mb-2 font-bold">{note.title}</p>
+                    <p>{note.description}</p>
+                  </div>
+                  <div className="hidden group-hover:block shadow-[2px_2px_2px_3px_rgba(0,0,0,0.2)] w-64 h-10">
+                    <div className="flex h-full w-full items-center justify-end">
+                      <div
+                        className="cursor-pointer px-1"
+                        onClick={() => {
+                          setAlert(true);
+                          setResponse({
+                            success: true,
+                            message:
+                              "Are You Sure You want to delete,Please Close For Confirmation",
+                          });
+                          setNote({
+                            id: note.note_id,
+                          });
+                        }}
+                      >
+                        <MdDeleteForever className="text-2xl" />
+                      </div>
+                      <div
+                        className="cursor-pointer px-1"
+                        onClick={() => {
+                          handleRecoveryNote({
+                            note_id: note.note_id,
+                            title: note.title,
+                            description: note.description,
+                          });
+                        }}
+                      >
+                        <RiDeviceRecoverLine className="text-2xl" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
       {alert && (

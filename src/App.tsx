@@ -1,15 +1,14 @@
 import { NavBar, SideNavBar } from "./components";
 import { Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Note, SignIn } from "./pages/index.ts";
-import { RootState } from "./redux/store.ts";
+import useLocalStorage from "./customHooks/getLocalStorageData.ts";
 
 export function ProtectedRoutes() {
-  const auth = useSelector((state: RootState) => state?.authValidator.auth);
+  const authKey = useLocalStorage("authData");
 
   return (
     <>
-      {auth ? (
+      {authKey ? (
         <div className="grid grid-rows-[4rem_minmax(0px,_1fr)] grid-cols-[18rem_minmax(0,_1fr)] h-screen">
           <NavBar />
           <Outlet />
@@ -17,7 +16,6 @@ export function ProtectedRoutes() {
         </div>
       ) : (
         <div className="flex justify-center items-center h-screen">
-          {/* {(window.location.href = "/signin")} */}
           <SignIn />
         </div>
       )}
@@ -26,14 +24,13 @@ export function ProtectedRoutes() {
 }
 
 export function UnprotectedRoutes() {
-  const auth = useSelector((state: RootState) => state?.authValidator.auth);
+  const authKey = useLocalStorage("authData");
 
   return (
     <>
-      {auth ? (
+      {authKey ? (
         <div className="grid grid-rows-[4rem_minmax(0px,_1fr)] grid-cols-[18rem_minmax(0,_1fr)] h-screen">
           <NavBar />
-          {/* {(window.location.href = "/notes")} */}
           <Note />
           <SideNavBar />
         </div>

@@ -1,56 +1,6 @@
-// import Modal from "@mui/material/Modal";
-
-// export default function ShowTaskModal({
-//   open,
-//   handleClose,
-//   setNote,
-//   note,
-// }: any) {
-//   return (
-//     <div>
-//       <Modal
-//         open={open}
-//         onClose={handleClose}
-//         aria-labelledby="modal-modal-title"
-//         aria-describedby="modal-modal-description"
-//       >
-//         <div className="absolute top-1/3 left-1/2 w-96 border-2 border-solid border-black bg-white min-h-32 max-h-96 ">
-//           <div
-//             className="border-2 border-black black-solid h-12 overflow-hidden p-1"
-//             contentEditable="true"
-//             onInput={(e: any) =>
-//               setNote((prevNote: any) => ({
-//                 ...prevNote,
-//                 title: e.target.innerText,
-//               }))
-//             }
-//             suppressContentEditableWarning={true}
-//           >
-//             {" "}
-//             {note.title}
-//           </div>
-
-//           <div
-//             className="border-2 border-black black-solid min-h-32 max-h-72 overflow-y-auto p-1"
-//             contentEditable="true"
-//             onInput={(e: any) =>
-//               setNote((prevNote: any) => ({
-//                 ...prevNote,
-//                 description: e.target.innerText,
-//               }))
-//             }
-//             suppressContentEditableWarning={true}
-//           >
-//             {" "}
-//             {note.description}
-//           </div>
-//         </div>
-//       </Modal>
-//     </div>
-//   );
-// }
-
 import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
 export default function ShowTaskModal({
   open,
@@ -60,49 +10,60 @@ export default function ShowTaskModal({
   OnChange,
 }: any) {
   return (
-    <div>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { width: 400 },
+          bgcolor: "background.paper",
+        }}
+        noValidate
+        autoComplete="off"
       >
-        <div className="absolute top-1/3 left-1/2 w-96 border-2 border-solid border-black bg-white min-h-32 max-h-96 ">
-          <div
-            className="border-2 border-black black-solid h-12 overflow-hidden p-1"
-            contentEditable="true"
-            onInput={(e: any) => {
+        <div className="flex flex-col">
+          <TextField
+            id="outlined-multiline-flexible"
+            multiline
+            maxRows={4}
+            minRows={2}
+            value={note.title}
+            onChange={(e: any) => {
               setNote((prevNote: any) => ({
                 ...prevNote,
-                title: e.target.innerText,
+                title: e.target.value,
               }));
-
               OnChange && OnChange();
             }}
-            suppressContentEditableWarning={true}
-          >
-            {" "}
-            {note.title}
-          </div>
-
-          <div
-            className="border-2 border-black black-solid min-h-32 max-h-72 overflow-y-auto p-1"
-            contentEditable="true"
-            onInput={(e: any) => {
+            sx={{
+              "& .MuiInputBase-input": { fontWeight: 700 }, // Target the input element directly
+            }}
+          />
+          <TextField
+            id="outlined-multiline-flexible"
+            multiline
+            maxRows={10}
+            minRows={7}
+            value={note.description}
+            onChange={(e: any) => {
               setNote((prevNote: any) => ({
                 ...prevNote,
-                description: e.target.innerText,
+                description: e.target.value,
               }));
-
               OnChange && OnChange();
             }}
-            suppressContentEditableWarning={true}
-          >
-            {" "}
-            {note.description}
-          </div>
+          />
         </div>
-      </Modal>
-    </div>
+      </Box>
+    </Modal>
   );
 }
